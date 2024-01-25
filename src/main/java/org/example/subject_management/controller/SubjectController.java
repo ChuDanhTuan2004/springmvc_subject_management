@@ -61,7 +61,7 @@ public class SubjectController {
     public String edit(@Valid Subject subject, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
             model.addAttribute("errorList", bindingResult.getAllErrors());
-            model.addAttribute("subject", new Subject());
+            model.addAttribute("subject", subjectService.findById(subject.getId()).get());
             model.addAttribute("categories", categoryService.findAll());
             return "/subject/edit";
         }
