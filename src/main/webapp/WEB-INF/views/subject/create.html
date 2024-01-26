@@ -14,7 +14,8 @@
     <input type="text" name="name" autofocus tabindex="1" placeholder="name">
     <input type="number" name="numberOfCourses" placeholder="numberOfCourses" th:value="1" required>
     <select th:field="*{subject.category.id}">
-        <option th:each="categoryOption : ${categories}" th:text="${categoryOption.nameCategory}" th:value="${categoryOption.id}">
+        <option th:each="categoryOption : ${categories}" th:text="${categoryOption.nameCategory}"
+                th:value="${categoryOption.id}">
     </select>
     <button>Add</button>
 </form>

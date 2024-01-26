@@ -6,6 +6,7 @@ import org.example.subject_management.service.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,10 @@ public class SubjectService implements ISubjectService {
     @Override
     public Iterable<Subject> findByName(String name) {
         return subjectRepository.findAllByNameContaining(name);
+    }
+
+    @Override
+    public List<Subject> findAllByCategoryId(Long id) {
+        return subjectRepository.findAllByCategoryId(id);
     }
 }

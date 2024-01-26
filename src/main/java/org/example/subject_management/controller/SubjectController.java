@@ -26,21 +26,22 @@ public class SubjectController {
 //    }
 
     @GetMapping("")
-    public String showList(Model model){
+    public String showList(Model model) {
+        model.addAttribute("categoryList", categoryService.findAll());
         model.addAttribute("subjectList", subjectService.findAll());
         return "/subject/list";
     }
 
     @GetMapping("/create")
-    public String showCreateForm(Model model){
+    public String showCreateForm(Model model) {
         model.addAttribute("subject", new Subject());
         model.addAttribute("categories", categoryService.findAll());
         return "/subject/create";
     }
 
     @PostMapping("/create")
-    public String create(@Valid Subject subject, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
+    public String create(@Valid Subject subject, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("errorList", bindingResult.getAllErrors());
             model.addAttribute("subject", new Subject());
             model.addAttribute("categories", categoryService.findAll());
@@ -51,15 +52,15 @@ public class SubjectController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model){
+    public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("subject", subjectService.findById(id).get());
         model.addAttribute("categories", categoryService.findAll());
         return "/subject/edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@Valid Subject subject, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
+    public String edit(@Valid Subject subject, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("errorList", bindingResult.getAllErrors());
             model.addAttribute("subject", subjectService.findById(subject.getId()).get());
             model.addAttribute("categories", categoryService.findAll());
@@ -70,14 +71,20 @@ public class SubjectController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id) {
         subjectService.deleteById(id);
         return "redirect:/subjects";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam String name, Model model){
+    public String search(@RequestParam String name, Model model) {
         model.addAttribute("subjectList", subjectService.findByName(name));
         return "/subject/result";
+    }
+
+    @GetMapping("/searchByCategoryId/{id}")
+    public String searchById(@PathVariable Long id, Model model) {
+        model.addAttribute("subjectList", subjectService.findAllByCategoryId(id));
+        return "/subject/categoryResult";
     }
 }
